@@ -39,4 +39,3 @@ if __name__ == "__main__":
     # app is not really used
     app = ExpenseTrackerApp(main_window)
     app.root_window.mainloop()
-    # main_window.mainloop()
