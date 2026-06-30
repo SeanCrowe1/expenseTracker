@@ -1,8 +1,10 @@
 import tkinter as tk
+from expenses import ExpenseRecord
 
 class ExpenseTrackerApp:
     
     def __init__(self, window):
+        self.record = ExpenseRecord()
         self.root_window = window
         window.title("Expense Tracker")
         window.geometry("700x500")
@@ -16,7 +18,7 @@ class ExpenseTrackerApp:
         
     # Handlers (event handlers)
     def add_expense(self):
-        pass
+        self.record.add_record("", "", "")
 
     def on_select(self):
         pass

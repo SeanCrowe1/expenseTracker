@@ -43,11 +43,20 @@ class ExpenseRecord:
             
         return ""
             
-    def add_record(self, name, amount, date):
+    def add_record(self, name, amount, date, type):
         name = name.strip()
         err = self.validate(name, amount, date)
         if err:
             return err
-        self._expenses.append((name, amount, date))
+        
+        expense = {
+            "name":name,
+            "amount":amount,
+            "date":date,
+            "type":type,
+        }
+
+        self._expenses.append(expense)
+        return expense
 
     
