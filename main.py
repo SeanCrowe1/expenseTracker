@@ -101,9 +101,6 @@ class ExpenseTrackerApp:
     def delete_expense(self):
         pass
 
-    def clear_form(self):
-        pass
-
     def on_close(self):
         pass    
 
