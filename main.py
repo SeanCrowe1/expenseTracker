@@ -35,8 +35,8 @@ class ExpenseTrackerApp:
         ttk.Radiobutton(form, text="Income", variable=self.type_var, value="Income").grid(row=3, column=1, padx=10, pady=2, sticky="ew")
         ttk.Radiobutton(form, text="Expense", variable=self.type_var, value="Expense").grid(row=3, column=2, padx=10, pady=2, sticky="ew")
 
-        ttk.Button(form, text="Clear", command=self.clear_form).grid(row=4, column=2)
         ttk.Button(form, text="Add", command=self.add_expense).grid(row=4, column=1)
+        ttk.Button(form, text="Clear", command=self.clear_form).grid(row=4, column=2)
 
     def build_table(self):
         table_frame = ttk.Frame(self.root)
@@ -73,6 +73,7 @@ class ExpenseTrackerApp:
             self.table.insert("", "end", iid=str(index), values=list(record.values()))
 
     def clear_form(self):
+        print("Hi")
         self.name_var.set("")
         self.amount_var.set("")
         self.date_var.set("")
@@ -86,8 +87,8 @@ class ExpenseTrackerApp:
         type_var = self.type_var.get()
 
         res = self.record.add_record(name, amount, date, type_var)
-        if type(res) == str:
-            raise res
+        if res is None:
+            return
         
         self.refresh_tree()
 

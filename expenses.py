@@ -8,12 +8,12 @@ class ExpenseRecord:
     def validate(self, name, amount, date):
         """Return an error message if the data is invalid, else None."""
         if not name:
-            return "Name is required"
+            return ValueError("Name is required")
         
         if float(amount) < 0:
-            return "Amount must be a valid number greater than 0."
+            return ValueError("Amount must be a valid number greater than 0.")
         
-        INVALID_DATE = "Date must be valid date in the format 'DD-MM-YYYY'."
+        INVALID_DATE = ValueError("Date must be valid date in the format 'DD-MM-YYYY'.")
         segments = date.split("-")
         if len(segments) != 3:
             return INVALID_DATE
@@ -47,11 +47,11 @@ class ExpenseRecord:
         name = name.strip()
         err = self.validate(name, amount, date)
         if err:
-            return err
+            raise err
         
         expense = {
             "name":name,
-            "amount":amount,
+            "amount": "€" + amount,
             "date":date,
             "type":type,
         }
