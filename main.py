@@ -25,13 +25,13 @@ class ExpenseTrackerApp:
         form.pack(fill="x")
 
         ttk.Label(form, text="Name:").grid(row=0, column=0, padx=10, pady=2, sticky="e")
-        ttk.Entry(form, width=112, textvariable=self.name_var).grid(row=0, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
+        ttk.Entry(form, width=106, textvariable=self.name_var).grid(row=0, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
 
         ttk.Label(form, text="Amount:").grid(row=1,column=0, padx=10, pady=2, sticky="e")
-        ttk.Entry(form, width=112, textvariable=self.amount_var).grid(row=1, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
+        ttk.Entry(form, width=106, textvariable=self.amount_var).grid(row=1, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
 
         ttk.Label(form, text="Date:").grid(row=2,column=0, padx=10, pady=2, sticky="e")
-        ttk.Entry(form, width=112, textvariable=self.date_var).grid(row=2, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
+        ttk.Entry(form, width=106, textvariable=self.date_var).grid(row=2, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
 
         ttk.Label(form, text="Type:").grid(row=3, column=0, padx=10, pady=2, sticky="e")
         ttk.Radiobutton(form, text="Income", variable=self.type_var, value="Income").grid(row=3, column=2, padx=10, pady=2, sticky="ew")
