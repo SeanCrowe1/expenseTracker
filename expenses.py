@@ -4,9 +4,24 @@ from os import path
 class ExpenseRecord:
     def __init__(self):
         self._expenses = self.read_json_record()
+        self.total = 0
+        self.calc_total()
 
     def all(self):
         return self._expenses
+    
+    def calc_total(self):
+        total = 0
+
+        for record in self._expenses:
+            num = int(record["amount"][1:])
+            
+            if record["type"] == "Income":
+                total += num
+            else:
+                total -= num
+
+        self.total = total
     
     def validate(self, name, amount, date):
         """Return an error message if the data is invalid, else None."""
@@ -60,6 +75,7 @@ class ExpenseRecord:
         }
 
         self._expenses.append(expense)
+        self.calc_total()
         return expense
     
     def update_record(self, id, name, amount, date, type_v):
@@ -76,6 +92,7 @@ class ExpenseRecord:
         expense["type"] = type_v
 
         self._expenses[id] = expense
+        self.calc_total()
 
         return expense
     
@@ -84,6 +101,7 @@ class ExpenseRecord:
             raise IndexError(f"Cannot find record in record: {id}")
         
         del self._expenses[id]
+        self.calc_total()
         return True
     
     def read_json_record(self, filename="records.json"):

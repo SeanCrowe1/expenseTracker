@@ -16,7 +16,7 @@ class ExpenseTrackerApp:
         self.amount_var = tk.StringVar()
         self.date_var = tk.StringVar()
         self.type_var = tk.StringVar(value="Income")
-        self.total_var = tk.IntVar(value=0)
+        self.total_var = tk.IntVar(value=self.record.total)
 
         self.build_form()
         self.build_table()
@@ -82,12 +82,11 @@ class ExpenseTrackerApp:
     def refresh_tree(self):
         for item in self.table.get_children():
             self.table.delete(item)
-        self.total_var.set(0)
+        self.total_var.set(self.record.total)
         
         all_records = self.record.all()
         for index, record in enumerate(all_records):
             self.table.insert("", "end", iid=str(index), values=list(record.values()))
-            # self.total_var.set(f"€{self.total_var.get() + int(record["amount"][1:])}")
 
     def clear_form(self):
         self.name_var.set("")
