@@ -75,8 +75,8 @@ class ExpenseTrackerApp:
         footer = ttk.Frame(self.root, padding=8)
         footer.pack(fill="x")
         self.footer = footer
-        ttk.Label(footer, text="Total: ").grid(row=0, column=0)
-        self.total_label = ttk.Label(footer, text=f"€{self.total_var.get()}")
+        ttk.Label(footer, text="Total Expenses Balance: ", font=("", 12)).grid(row=0, column=0)
+        self.total_label = ttk.Label(footer, text=f"€{self.total_var.get()}", font=("", 12))
         self.total_label.grid(row=0, column=1, sticky="n")
 
     def refresh_tree(self):
