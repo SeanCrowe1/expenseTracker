@@ -8,6 +8,7 @@ class ExpenseTrackerApp:
         self.root = root
         root.title("Expense Tracker")
         root.geometry("1000x800")
+        root.option_add("*Font", ("", 12))
 
         root.protocol("WM_DELETE_WINDOW", self.on_close)
 
@@ -27,22 +28,22 @@ class ExpenseTrackerApp:
         form.pack(fill="x")
 
         ttk.Label(form, text="Name:").grid(row=0, column=0, padx=10, pady=2, sticky="e")
-        ttk.Entry(form, width=106, textvariable=self.name_var).grid(row=0, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
+        ttk.Entry(form, width=86, textvariable=self.name_var).grid(row=0, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
 
         ttk.Label(form, text="Amount:").grid(row=1,column=0, padx=10, pady=2, sticky="e")
-        ttk.Entry(form, width=106, textvariable=self.amount_var).grid(row=1, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
+        ttk.Entry(form, width=86, textvariable=self.amount_var).grid(row=1, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
 
         ttk.Label(form, text="Date:").grid(row=2,column=0, padx=10, pady=2, sticky="e")
-        ttk.Entry(form, width=106, textvariable=self.date_var).grid(row=2, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
+        ttk.Entry(form, width=86, textvariable=self.date_var).grid(row=2, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
 
         ttk.Label(form, text="Type:").grid(row=3, column=0, padx=10, pady=2, sticky="e")
         ttk.Radiobutton(form, text="Income", variable=self.type_var, value="Income").grid(row=3, column=2, padx=10, pady=2, sticky="ew")
         ttk.Radiobutton(form, text="Expense", variable=self.type_var, value="Expense").grid(row=3, column=3, padx=10, pady=2, sticky="ew")
 
-        ttk.Button(form, text="Add", command=self.add_expense).grid(row=4, column=1)
-        ttk.Button(form, text="Save Changes", command=self.save_changes).grid(row=4, column=2)
-        ttk.Button(form, text="Delete", command=self.delete_expense).grid(row=4, column=3)
-        ttk.Button(form, text="Clear", command=self.clear_form).grid(row=4, column=4)
+        ttk.Button(form, width=15, text="Add", command=self.add_expense).grid(row=4, column=1, rowspan=2)
+        ttk.Button(form, width=15, text="Save Changes", command=self.save_changes).grid(row=4, column=2, rowspan=2)
+        ttk.Button(form, width=15, text="Delete", command=self.delete_expense).grid(row=4, column=3, rowspan=2)
+        ttk.Button(form, width=15, text="Clear", command=self.clear_form).grid(row=4, column=4, rowspan=2)
 
     def build_table(self):
         table_frame = ttk.Frame(self.root)
