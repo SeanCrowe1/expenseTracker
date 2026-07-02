@@ -58,5 +58,17 @@ class ExpenseRecord:
 
         self._expenses.append(expense)
         return expense
+    
+    def update_record(self, id, name, amount, date, type_v):
+        expense = {}
 
+        if id >= len(self._expenses):
+            return IndexError(f"Cannot receive selection from records: {id}")
+        
+        expense = self._expenses[id]
+
+        expense["name"] = name
+        expense["amount"] = f"€{amount}"
+        expense["date"] = date
+        expense["type"] = type_v
     

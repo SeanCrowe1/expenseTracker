@@ -74,7 +74,7 @@ class ExpenseTrackerApp:
         footer.pack(fill="x")
         self.footer = footer
         ttk.Label(footer, text="Total: ").grid(row=0, column=0)
-        ttk.Label(footer, text=self.total_var).grid(row=0, column=1)
+        ttk.Label(footer, text=f"€{self.total_var.get()}").grid(row=0, column=1, sticky="n")
 
     def refresh_tree(self):
         for item in self.table.get_children():
@@ -84,7 +84,7 @@ class ExpenseTrackerApp:
         all_records = self.record.all()
         for index, record in enumerate(all_records):
             self.table.insert("", "end", iid=str(index), values=list(record.values()))
-            self.total_var.set(f"€{self.total_var.get() + int(record["amount"][1:])}")
+            # self.total_var.set(f"€{self.total_var.get() + int(record["amount"][1:])}")
 
     def clear_form(self):
         self.name_var.set("")
@@ -107,21 +107,33 @@ class ExpenseTrackerApp:
 
     def on_select(self, event):
         selected = self.table.focus()
-        record = self.table.item(selected)
+        if not selected:
+            return
+        record_vals = self.table.item(selected)["values"]
 
-        self.name_var.set(record["values"][0])
-        self.amount_var.set(record["values"][1][1:])
-        self.date_var.set(record["values"][2])
-        self.type_var.set(record["values"][3])
+        self.name_var.set(record_vals[0])
+        self.amount_var.set(record_vals[1][1:])
+        self.date_var.set(record_vals[2])
+        self.type_var.set(record_vals[3])
 
     def save_changes(self):
-        pass
+        id = int(self.table.focus())
+
+        name = self.name_var.get()
+        amount = self.amount_var.get()
+        date = self.date_var.get()
+        type = self.type_var.get()
+
+        self.record.validate(name, amount, date)
+
+        self.record.update_record(id, name, amount, date, type)
+        self.refresh_tree()
 
     def delete_expense(self):
         pass
 
     def on_close(self):
-        pass    
+        pass
 
 if __name__ == "__main__":
     main_window = tk.Tk()
