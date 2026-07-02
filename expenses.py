@@ -1,4 +1,5 @@
 import json as js
+from os import path
 
 class ExpenseRecord:
     def __init__(self):
@@ -86,10 +87,13 @@ class ExpenseRecord:
         return True
     
     def read_json_record(self, filename="records.json"):
-        with open(filename) as f:
-            json = f.read()
+        record = []
 
-        return js.loads(json)
+        if path.isfile(filename):
+            with open(filename) as f:
+                record = js.loads(f.read())
+
+        return record
 
     def write_json_record(self, record_data, filename="records.json"):
         with open(filename, "w", encoding="utf-8") as f:
