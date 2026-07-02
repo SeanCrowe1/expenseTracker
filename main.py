@@ -1,4 +1,5 @@
 import tkinter as tk
+import json as js
 from tkinter import ttk
 from expenses import ExpenseRecord
 
@@ -8,6 +9,8 @@ class ExpenseTrackerApp:
         self.root = root
         root.title("Expense Tracker")
         root.geometry("1000x800")
+
+        root.protocol("WM_DELETE_WINDOW", self.on_close)
 
         self.name_var = tk.StringVar()
         self.amount_var = tk.StringVar()
@@ -144,7 +147,14 @@ class ExpenseTrackerApp:
         self.clear_form()
 
     def on_close(self):
-        pass
+        print("Goodbye!")
+        record_data = self.record.all()
+        self.write_json_report(record_data)
+        self.root.destroy()
+
+    def write_json_report(self, record_data, filename="records.json"):
+        with open(filename, "w", encoding="utf-8") as f:
+            js.dump(record_data, f, indent=2)
 
 if __name__ == "__main__":
     main_window = tk.Tk()
