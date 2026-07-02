@@ -14,7 +14,7 @@ class ExpenseRecord:
         total = 0
 
         for record in self._expenses:
-            num = int(record["amount"][1:])
+            num = float(record["amount"][1:])
             
             if record["type"] == "Income":
                 total += num
@@ -69,7 +69,7 @@ class ExpenseRecord:
         
         expense = {
             "name": name,
-            "amount": "€" + amount,
+            "amount": f"€{float(amount):.2f}",
             "date": date,
             "type": type,
         }
@@ -87,7 +87,7 @@ class ExpenseRecord:
         expense = self._expenses[id]
 
         expense["name"] = name
-        expense["amount"] = f"€{amount}"
+        expense["amount"] = f"€{amount:.2f}"
         expense["date"] = date
         expense["type"] = type_v
 

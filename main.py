@@ -1,5 +1,4 @@
 import tkinter as tk
-import json as js
 from tkinter import ttk
 from expenses import ExpenseRecord
 
@@ -16,12 +15,12 @@ class ExpenseTrackerApp:
         self.amount_var = tk.StringVar()
         self.date_var = tk.StringVar()
         self.type_var = tk.StringVar(value="Income")
-        self.total_var = tk.IntVar(value=self.record.total)
+        self.total_var = tk.DoubleVar(value=self.record.total)
 
         self.build_form()
         self.build_table()
-        self.refresh_tree()
         self.build_footer()
+        self.refresh_tree()
 
     def build_form(self):
         form = ttk.Frame(self.root, padding=8)
@@ -77,7 +76,8 @@ class ExpenseTrackerApp:
         footer.pack(fill="x")
         self.footer = footer
         ttk.Label(footer, text="Total: ").grid(row=0, column=0)
-        ttk.Label(footer, text=f"€{self.total_var.get()}").grid(row=0, column=1, sticky="n")
+        self.total_label = ttk.Label(footer, text=f"€{self.total_var.get()}")
+        self.total_label.grid(row=0, column=1, sticky="n")
 
     def refresh_tree(self):
         for item in self.table.get_children():
@@ -87,6 +87,10 @@ class ExpenseTrackerApp:
         all_records = self.record.all()
         for index, record in enumerate(all_records):
             self.table.insert("", "end", iid=str(index), values=list(record.values()))
+
+        str_total = '{:.2f}'.format(self.total_var.get())
+        self.total_label.config(text=f"€{str_total}")
+        
 
     def clear_form(self):
         self.name_var.set("")
