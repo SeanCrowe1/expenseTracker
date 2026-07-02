@@ -1,6 +1,8 @@
+import json as js
+
 class ExpenseRecord:
     def __init__(self):
-        self._expenses = []
+        self._expenses = self.read_json_record()
 
     def all(self):
         return self._expenses
@@ -82,4 +84,14 @@ class ExpenseRecord:
         
         del self._expenses[id]
         return True
+    
+    def read_json_record(self, filename="records.json"):
+        with open(filename) as f:
+            json = f.read()
+
+        return js.loads(json)
+
+    def write_json_record(self, record_data, filename="records.json"):
+        with open(filename, "w", encoding="utf-8") as f:
+            js.dump(record_data, f, indent=2)
     

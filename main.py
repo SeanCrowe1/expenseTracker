@@ -147,14 +147,9 @@ class ExpenseTrackerApp:
         self.clear_form()
 
     def on_close(self):
-        print("Goodbye!")
         record_data = self.record.all()
-        self.write_json_report(record_data)
+        self.record.write_json_record(record_data)
         self.root.destroy()
-
-    def write_json_report(self, record_data, filename="records.json"):
-        with open(filename, "w", encoding="utf-8") as f:
-            js.dump(record_data, f, indent=2)
 
 if __name__ == "__main__":
     main_window = tk.Tk()
