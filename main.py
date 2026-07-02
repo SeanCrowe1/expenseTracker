@@ -13,25 +13,27 @@ class ExpenseTrackerApp:
         self.amount_var = tk.StringVar()
         self.date_var = tk.StringVar()
         self.type_var = tk.StringVar(value="Income")
+        self.total_var = tk.IntVar(value=0)
 
         self.build_form()
         self.build_table()
         self.refresh_tree()
+        self.build_footer()
 
     def build_form(self):
         form = ttk.Frame(self.root, padding=8)
         form.pack(fill="x")
 
-        ttk.Label(form, text="Name:").grid(row=0, column=0, sticky="e")
+        ttk.Label(form, text="Name:").grid(row=0, column=0, padx=10, pady=2, sticky="e")
         ttk.Entry(form, width=112, textvariable=self.name_var).grid(row=0, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
 
-        ttk.Label(form, text="Amount:").grid(row=1,column=0, sticky="e")
+        ttk.Label(form, text="Amount:").grid(row=1,column=0, padx=10, pady=2, sticky="e")
         ttk.Entry(form, width=112, textvariable=self.amount_var).grid(row=1, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
 
-        ttk.Label(form, text="Date:").grid(row=2,column=0, sticky="e")
+        ttk.Label(form, text="Date:").grid(row=2,column=0, padx=10, pady=2, sticky="e")
         ttk.Entry(form, width=112, textvariable=self.date_var).grid(row=2, column=1, columnspan=4, padx=10, pady=2, sticky="ew")
 
-        ttk.Label(form, text="Type:").grid(row=3, column=0, sticky="e")
+        ttk.Label(form, text="Type:").grid(row=3, column=0, padx=10, pady=2, sticky="e")
         ttk.Radiobutton(form, text="Income", variable=self.type_var, value="Income").grid(row=3, column=2, padx=10, pady=2, sticky="ew")
         ttk.Radiobutton(form, text="Expense", variable=self.type_var, value="Expense").grid(row=3, column=3, padx=10, pady=2, sticky="ew")
 
@@ -47,6 +49,7 @@ class ExpenseTrackerApp:
         columns = ("name", "amount", "date", "type")
 
         self.table = ttk.Treeview(table_frame, columns=columns, show="headings", height=8)
+        self.table.bind("<<TreeviewSelect>>", self.on_select)
 
         self.table.heading("name", text="Name")
         self.table.column("name", width=120)
@@ -66,13 +69,22 @@ class ExpenseTrackerApp:
 
         self.table.pack(side="left", fill="both", expand=True)
 
+    def build_footer(self):
+        footer = ttk.Frame(self.root, padding=8)
+        footer.pack(fill="x")
+        self.footer = footer
+        ttk.Label(footer, text="Total: ").grid(row=0, column=0)
+        ttk.Label(footer, text=self.total_var).grid(row=0, column=1)
+
     def refresh_tree(self):
         for item in self.table.get_children():
             self.table.delete(item)
+        self.total_var.set(0)
         
         all_records = self.record.all()
         for index, record in enumerate(all_records):
             self.table.insert("", "end", iid=str(index), values=list(record.values()))
+            self.total_var.set(f"€{self.total_var.get() + int(record["amount"][1:])}")
 
     def clear_form(self):
         self.name_var.set("")
@@ -91,9 +103,16 @@ class ExpenseTrackerApp:
             return
         
         self.refresh_tree()
+        self.clear_form()
 
-    def on_select(self):
-        pass
+    def on_select(self, event):
+        selected = self.table.focus()
+        record = self.table.item(selected)
+
+        self.name_var.set(record["values"][0])
+        self.amount_var.set(record["values"][1][1:])
+        self.date_var.set(record["values"][2])
+        self.type_var.set(record["values"][3])
 
     def save_changes(self):
         pass

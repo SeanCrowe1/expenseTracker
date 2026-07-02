@@ -50,10 +50,10 @@ class ExpenseRecord:
             raise err
         
         expense = {
-            "name":name,
+            "name": name,
             "amount": "€" + amount,
-            "date":date,
-            "type":type,
+            "date": date,
+            "type": type,
         }
 
         self._expenses.append(expense)
