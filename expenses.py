@@ -74,3 +74,9 @@ class ExpenseRecord:
 
         return self._expenses[id]
     
+    def delete_record(self, id) -> None:
+        if id >= len(self._expenses):
+            raise IndexError(f"Cannot find record in record: {id}")
+        
+        del self._expenses[id]
+    

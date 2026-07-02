@@ -57,3 +57,15 @@ class TestExpenses(unittest.TestCase):
         record = ExpenseRecord()
         id, name, amount, date, type = (0, "Google", "2115", "25-06-2025", "income")
         self.assertRaises(IndexError, record.update_record, id, name, amount, date, type)
+
+    def test_delete_entry(self) -> None:
+        record = ExpenseRecord()
+        name, amount, date = ("Rent", "1165", "01-06-2026")
+        record.add_record(name, amount, date, "expense")
+        actual = record.delete_record(0)
+        self.assertEqual(actual, None)
+
+    def test_invalid_delete(self) -> None:
+        record = ExpenseRecord()
+        self.assertRaises(IndexError, record.delete_record, 0)
+
