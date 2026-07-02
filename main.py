@@ -131,9 +131,17 @@ class ExpenseTrackerApp:
             return
         
         self.refresh_tree()
+        self.clear_form()
 
     def delete_expense(self):
-        pass
+        id = int(self.table.focus())
+        
+        res = self.record.delete_record(id)
+        if res is None:
+            return
+        
+        self.refresh_tree()
+        self.clear_form()
 
     def on_close(self):
         pass

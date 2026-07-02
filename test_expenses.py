@@ -63,7 +63,8 @@ class TestExpenses(unittest.TestCase):
         name, amount, date = ("Rent", "1165", "01-06-2026")
         record.add_record(name, amount, date, "expense")
         actual = record.delete_record(0)
-        self.assertEqual(actual, None)
+        expected = True
+        self.assertEqual(actual, expected)
 
     def test_invalid_delete(self) -> None:
         record = ExpenseRecord()

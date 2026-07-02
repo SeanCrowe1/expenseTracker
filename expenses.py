@@ -72,11 +72,14 @@ class ExpenseRecord:
         expense["date"] = date
         expense["type"] = type_v
 
-        return self._expenses[id]
+        self._expenses[id] = expense
+
+        return expense
     
-    def delete_record(self, id) -> None:
+    def delete_record(self, id) -> bool:
         if id >= len(self._expenses):
             raise IndexError(f"Cannot find record in record: {id}")
         
         del self._expenses[id]
+        return True
     
