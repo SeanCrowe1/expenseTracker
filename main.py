@@ -126,7 +126,10 @@ class ExpenseTrackerApp:
 
         self.record.validate(name, amount, date)
 
-        self.record.update_record(id, name, amount, date, type)
+        res = self.record.update_record(id, name, amount, date, type)
+        if res is None:
+            return
+        
         self.refresh_tree()
 
     def delete_expense(self):

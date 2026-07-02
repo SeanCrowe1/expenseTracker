@@ -45,3 +45,15 @@ class TestExpenses(unittest.TestCase):
         input_data = ("Rent", "1165", "01-06-26")
         name, amount, date = input_data
         self.assertRaises(ValueError, record.add_record, name, amount, date, "expense")
+
+    def test_update_entry(self) -> None:
+        record = ExpenseRecord()
+        record.add_record("Rent", "1165", "01-06-2026", "expense")
+        actual = record.update_record(0, "Google", "2115", "25-06-2025", "income")
+        expected = {"name": "Google", "amount": "€2115", "date":"25-06-2025", "type":"income"}
+        self.assertEqual(actual, expected)
+
+    def test_invalid_update(self) -> None:
+        record = ExpenseRecord()
+        id, name, amount, date, type = (0, "Google", "2115", "25-06-2025", "income")
+        self.assertRaises(IndexError, record.update_record, id, name, amount, date, type)

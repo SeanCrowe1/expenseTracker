@@ -63,7 +63,7 @@ class ExpenseRecord:
         expense = {}
 
         if id >= len(self._expenses):
-            return IndexError(f"Cannot receive selection from records: {id}")
+            raise IndexError(f"Cannot receive selection from records: {id}")
         
         expense = self._expenses[id]
 
@@ -71,4 +71,6 @@ class ExpenseRecord:
         expense["amount"] = f"€{amount}"
         expense["date"] = date
         expense["type"] = type_v
+
+        return self._expenses[id]
     
