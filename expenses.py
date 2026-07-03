@@ -103,10 +103,3 @@ class ExpenseRecord:
         self.calc_total()
         return True
     
-# Design doc notes
-
-# - JSON format design / data structure
-# - Change ASCII wireframe to drawn picture (draw.io / figma) + add annotations
-# - Add explanation of Event handling table
-# - Explain the system architecture (separated logic layer and GUI classes)
-# - Explain full testing approach (what tests I plan on performing)
