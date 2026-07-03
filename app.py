@@ -141,6 +141,9 @@ class ExpenseTrackerApp:
             return
         
         id = int(id)
+
+        if mb.askquestion("Confirmation", "Are you sure you want to delete this record?", icon="warning") == "no":
+            return
         
         res = self.record.delete_record(id)
         if type(res) is str:
