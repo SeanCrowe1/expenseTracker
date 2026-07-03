@@ -1,11 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
-from expenses import ExpenseRecord
+from tkinter import messagebox as mb
+from expenses import ExpenseRecord as ER
 from json_record import write_json_record
 
 class ExpenseTrackerApp:
     def __init__(self, root: tk.Tk):
-        self.record = ExpenseRecord()
+        self.record = ER()
         self.root = root
         
         root.title("Expense Tracker")
@@ -101,7 +102,8 @@ class ExpenseTrackerApp:
         type_var = self.type_var.get()
 
         res = self.record.add_record(name, amount, date, type_var)
-        if res is None:
+        if type(res) == str:
+            mb.showerror("Validation Error", res)
             return
         
         self.refresh_tree()
@@ -111,19 +113,21 @@ class ExpenseTrackerApp:
         id = self.table.focus()
         
         if id == "":
-            raise ValueError("No item in table selected")
+            mb.showerror("Selection Error", "Error: No item in table selected")
+            return
         
         id = int(id)
 
         name = self.name_var.get()
         amount = self.amount_var.get()
         date = self.date_var.get()
-        type = self.type_var.get()
+        type_v = self.type_var.get()
 
         self.record.validate(name, amount, date)
 
-        res = self.record.update_record(id, name, amount, date, type)
-        if res is None:
+        res = self.record.update_record(id, name, amount, date, type_v)
+        if type(res) is str:
+            mb.showerror("Validation Error", res)
             return
         
         self.refresh_tree()
@@ -133,12 +137,14 @@ class ExpenseTrackerApp:
         id = self.table.focus()
         
         if id == "":
-            raise ValueError("No item in table selected")
+            mb.showerror("Selection Error", "Error: No item in table selected")
+            return
         
         id = int(id)
         
         res = self.record.delete_record(id)
-        if res is None:
+        if type(res) is str:
+            mb.showerror("Validation Error", res)
             return
         
         self.refresh_tree()

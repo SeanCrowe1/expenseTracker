@@ -25,12 +25,12 @@ class ExpenseRecord:
     def validate(self, name, amount, date):
         """Return an error message if the data is invalid, else None."""
         if not name:
-            return ValueError("Name is required")
+            return "Name is required"
         
-        if float(amount) < 0:
-            return ValueError("Amount must be a valid number greater than 0.")
+        if amount == "" or float(amount) < 0:
+            return "Amount must be a valid number greater than 0."
         
-        INVALID_DATE = ValueError("Date must be valid date in the format 'DD-MM-YYYY'.")
+        INVALID_DATE = "Date must be valid date in the format 'DD-MM-YYYY'."
         segments = date.split("-")
         if len(segments) != 3:
             return INVALID_DATE
@@ -64,7 +64,7 @@ class ExpenseRecord:
         name = name.strip()
         err = self.validate(name, amount, date)
         if err:
-            raise err
+            return err
         
         expense = {
             "name": name,
@@ -81,12 +81,16 @@ class ExpenseRecord:
         expense = {}
 
         if id >= len(self._expenses):
-            raise IndexError(f"Cannot find id in record: {id}")
+            return f"Cannot find id in record: {id}"
+
+        err = self.validate(name, amount, date)
+        if err:
+            return err
         
         expense = self._expenses[id]
 
         expense["name"] = name
-        expense["amount"] = f"€{amount:.2f}"
+        expense["amount"] = f"€{float(amount):.2f}"
         expense["date"] = date
         expense["type"] = type_v
 
@@ -97,7 +101,7 @@ class ExpenseRecord:
     
     def delete_record(self, id) -> bool:
         if id >= len(self._expenses):
-            raise IndexError(f"Cannot find id in record: {id}")
+            return f"Cannot find id in record: {id}"
         
         del self._expenses[id]
         self.calc_total()
