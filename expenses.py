@@ -3,6 +3,8 @@ from json_record import read_json_record
 class ExpenseRecord:
     def __init__(self):
         self._expenses = read_json_record()
+        self.expense = 0
+        self.income = 0
         self.total = 0
         self.calc_total()
 
@@ -10,16 +12,22 @@ class ExpenseRecord:
         return self._expenses
     
     def calc_total(self):
+        expenses = 0
+        income = 0
         total = 0
 
         for record in self._expenses:
             num = float(record["amount"][1:])
             
             if record["type"] == "Income":
+                income += num
                 total += num
             else:
+                expenses += num
                 total -= num
 
+        self.expense = expenses
+        self.income = income
         self.total = total
     
     def validate(self, name, amount, date):

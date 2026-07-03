@@ -18,6 +18,8 @@ class ExpenseTrackerApp:
         self.amount_var = tk.StringVar()
         self.date_var = tk.StringVar()
         self.type_var = tk.StringVar(value="Income")
+        self.expenses_var = tk.DoubleVar(value=self.record.expense)
+        self.income_var = tk.DoubleVar(value=self.record.income)
         self.total_var = tk.DoubleVar(value=self.record.total)
 
         self.build_form()
@@ -78,21 +80,30 @@ class ExpenseTrackerApp:
         footer = ttk.Frame(self.root, padding=8)
         footer.pack(fill="x")
         self.footer = footer
-        ttk.Label(footer, text="Total Expenses Balance: ").grid(row=0, column=0)
-        self.total_label = ttk.Label(footer, text=f"€{self.total_var.get()}")
-        self.total_label.grid(row=0, column=1, sticky="n")
+        self.expenses_label = ttk.Label(footer, width=36, text=f"Total Expenses: €{self.expenses_var.get()}")
+        self.expenses_label.grid(row=0, column=0, sticky="w")
+        self.income_label = ttk.Label(footer, width=36, text=f"Total Income: €{self.income_var.get()}")
+        self.income_label.grid(row=0, column=1, sticky="w")
+        self.total_label = ttk.Label(footer, width=36, text=f"Total Balance: €{self.total_var.get()}")
+        self.total_label.grid(row=0, column=2, sticky="w")
 
     def refresh_tree(self):
         for item in self.table.get_children():
             self.table.delete(item)
+        self.expenses_var.set(self.record.expense)
+        self.income_var.set(self.record.income)
         self.total_var.set(self.record.total)
         
         all_records = self.record.all()
         for index, record in enumerate(all_records):
             self.table.insert("", "end", iid=str(index), values=list(record.values()))
 
+        str_expense = '{:.2f}'.format(self.expenses_var.get())
+        self.expenses_label.config(text=f"Total Expenses: €{str_expense}")
+        str_income = '{:.2f}'.format(self.income_var.get())
+        self.income_label.config(text=f"Total Income: €{str_income}")
         str_total = '{:.2f}'.format(self.total_var.get())
-        self.total_label.config(text=f"€{str_total}")
+        self.total_label.config(text=f"Total Balance: €{str_total}")
         
     # Event handlers
     def add_expense(self):
