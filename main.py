@@ -124,7 +124,12 @@ class ExpenseTrackerApp:
         self.type_var.set(record_vals[3])
 
     def save_changes(self):
-        id = int(self.table.focus())
+        id = self.table.focus()
+        
+        if id == "":
+            raise ValueError("No item in table selected")
+        
+        id = int(id)
 
         name = self.name_var.get()
         amount = self.amount_var.get()
@@ -141,7 +146,12 @@ class ExpenseTrackerApp:
         self.clear_form()
 
     def delete_expense(self):
-        id = int(self.table.focus())
+        id = self.table.focus()
+        
+        if id == "":
+            raise ValueError("No item in table selected")
+        
+        id = int(id)
         
         res = self.record.delete_record(id)
         if res is None:
