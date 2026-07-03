@@ -82,7 +82,7 @@ class ExpenseRecord:
         expense = {}
 
         if id >= len(self._expenses):
-            raise IndexError(f"Cannot receive selection from records: {id}")
+            raise IndexError(f"Cannot find id in record: {id}")
         
         expense = self._expenses[id]
 
@@ -98,7 +98,7 @@ class ExpenseRecord:
     
     def delete_record(self, id) -> bool:
         if id >= len(self._expenses):
-            raise IndexError(f"Cannot find record in record: {id}")
+            raise IndexError(f"Cannot find id in record: {id}")
         
         del self._expenses[id]
         self.calc_total()
@@ -117,3 +117,10 @@ class ExpenseRecord:
         with open(filename, "w", encoding="utf-8") as f:
             js.dump(record_data, f, indent=2)
     
+# Design doc notes
+
+# - JSON format design / data structure
+# - Change ASCII wireframe to drawn picture (draw.io / figma) + add annotations
+# - Add explanation of Event handling table
+# - Explain the system architecture (separated logic layer and GUI classes)
+# - Explain full testing approach (what tests I plan on performing)

@@ -3,13 +3,13 @@ from tkinter import ttk
 from expenses import ExpenseRecord
 
 class ExpenseTrackerApp:
-    def __init__(self, root):
+    def __init__(self, root: tk.Tk):
         self.record = ExpenseRecord()
         self.root = root
+        
         root.title("Expense Tracker")
         root.geometry("1000x800")
         root.option_add("*Font", ("", 12))
-
         root.protocol("WM_DELETE_WINDOW", self.on_close)
 
         self.name_var = tk.StringVar()
@@ -92,13 +92,7 @@ class ExpenseTrackerApp:
         str_total = '{:.2f}'.format(self.total_var.get())
         self.total_label.config(text=f"€{str_total}")
         
-
-    def clear_form(self):
-        self.name_var.set("")
-        self.amount_var.set("")
-        self.date_var.set("")
-        self.type_var.set("Income")
-        
+    # Event handlers
     def add_expense(self):
         name = self.name_var.get()
         amount = self.amount_var.get()
@@ -111,17 +105,6 @@ class ExpenseTrackerApp:
         
         self.refresh_tree()
         self.clear_form()
-
-    def on_select(self, event):
-        selected = self.table.focus()
-        if not selected:
-            return
-        record_vals = self.table.item(selected)["values"]
-
-        self.name_var.set(record_vals[0])
-        self.amount_var.set(record_vals[1][1:])
-        self.date_var.set(record_vals[2])
-        self.type_var.set(record_vals[3])
 
     def save_changes(self):
         id = self.table.focus()
@@ -159,6 +142,23 @@ class ExpenseTrackerApp:
         
         self.refresh_tree()
         self.clear_form()
+
+    def clear_form(self):
+        self.name_var.set("")
+        self.amount_var.set("")
+        self.date_var.set("")
+        self.type_var.set("Income")
+
+    def on_select(self, event):
+        selected = self.table.focus()
+        if not selected:
+            return
+        record_vals = self.table.item(selected)["values"]
+
+        self.name_var.set(record_vals[0])
+        self.amount_var.set(record_vals[1][1:])
+        self.date_var.set(record_vals[2])
+        self.type_var.set(record_vals[3])
 
     def on_close(self):
         record_data = self.record.all()

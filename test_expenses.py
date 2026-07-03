@@ -69,4 +69,3 @@ class TestExpenses(unittest.TestCase):
     def test_invalid_delete(self) -> None:
         record = ExpenseRecord()
         self.assertRaises(IndexError, record.delete_record, 0)
-
