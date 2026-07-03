@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from expenses import ExpenseRecord
+from json_record import write_json_record
 
 class ExpenseTrackerApp:
     def __init__(self, root: tk.Tk):
@@ -162,7 +163,7 @@ class ExpenseTrackerApp:
 
     def on_close(self):
         record_data = self.record.all()
-        self.record.write_json_record(record_data)
+        write_json_record(record_data)
         self.root.destroy()
 
 if __name__ == "__main__":
