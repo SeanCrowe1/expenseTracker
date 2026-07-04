@@ -84,7 +84,7 @@ class ExpenseTrackerApp:
         footer = ttk.Frame(self.root, padding=8)
         footer.pack(fill="x")
         self.footer = footer
-        self.expenses_label = ttk.Label(footer, width=36, text=f"Total Expenses: €{self.expenses_var.get()}")
+        self.expenses_label = ttk.Label(footer, width=36, text=f"Total Expenses: €{self.expense_var.get()}")
         self.expenses_label.grid(row=0, column=0, sticky="w")
         self.income_label = ttk.Label(footer, width=36, text=f"Total Income: €{self.income_var.get()}")
         self.income_label.grid(row=0, column=1, sticky="w")
