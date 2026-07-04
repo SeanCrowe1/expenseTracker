@@ -1,7 +1,7 @@
 import json as js
 from os import path
 
-def read_json_record(filename="records.json"):
+def read_json_record(filename: str="records.json") -> list[dict[str:str]]:
     """Reads all recorded data from either a named JSON file or 'records.json' if no filename is provided."""
     record = []
 
@@ -16,7 +16,7 @@ def read_json_record(filename="records.json"):
 
     return record
 
-def write_json_record(record_data, filename="records.json"):
+def write_json_record(record_data: list[dict[str:str]], filename: str="records.json") -> None:
     """Writes all provided data to either a named JSON file or 'records.json' if no filename is provided."""
     with open(filename, "w", encoding="utf-8") as f:
         js.dump(record_data, f, indent=2)

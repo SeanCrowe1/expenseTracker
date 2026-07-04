@@ -1,7 +1,7 @@
 from json_record import read_json_record
 
 class ExpenseRecord:
-    def __init__(self):
+    def __init__(self) -> None:
         """Initializes app's internal record with stored JSON data and expense totals for summary display."""
         self._expenses = read_json_record()
         self.expense = 0
@@ -9,11 +9,11 @@ class ExpenseRecord:
         self.total = 0
         self.calc_total()
 
-    def all(self):
+    def all(self) -> list[dict[str:str]]:
         """Return all currently stored expenses."""
         return self._expenses
     
-    def calc_total(self):
+    def calc_total(self) -> str:
         """Calculate and update all summary totals for currently stored expenses."""
         expenses = 0
         income = 0
@@ -36,7 +36,7 @@ class ExpenseRecord:
         self.income = income
         self.total = total
     
-    def validate(self, name, amount, date):
+    def validate(self, name: str, amount: str, date: str) -> str:
         """Return an error message if the inptut data is invalid, else None."""
         # Empty 'Name' field error
         if not name:
@@ -78,7 +78,7 @@ class ExpenseRecord:
             
         return ""
             
-    def add_expense(self, name, amount, date, type_var):
+    def add_expense(self, name: str, amount: str, date: str, type_var: str) -> str:
         """Add an expense to the current record."""
         name = name.strip()
         # Validate entry fields
@@ -99,7 +99,7 @@ class ExpenseRecord:
         self.calc_total()
         return ""
     
-    def update_expense(self, id, name, amount, date, type_var):
+    def update_expense(self, id: int, name: str, amount: str, date: str, type_var: str) -> str:
         """Update an expense stored in the current record."""
         expense = {}
 
@@ -139,7 +139,7 @@ class ExpenseRecord:
         self.calc_total()
         return ""
     
-    def delete_all(self):
+    def delete_all(self) -> None:
         """Delete all stored expenses from current record"""
         self._expenses = []
     

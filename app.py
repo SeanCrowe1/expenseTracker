@@ -5,7 +5,7 @@ from expenses import ExpenseRecord as ER
 from json_record import write_json_record
 
 class ExpenseTrackerApp:
-    def __init__(self, root: tk.Tk):
+    def __init__(self, root: tk.Tk) -> None:
         """Initialize app display and all entry and display variables."""
         self.record = ER()
         self.root = root
@@ -28,7 +28,7 @@ class ExpenseTrackerApp:
         self.build_footer()
         self.refresh_tree()
 
-    def build_form(self):
+    def build_form(self) -> None:
         """Construct and format the app's form entry fields."""
         form = ttk.Frame(self.root, padding=8)
         form.pack(fill="x")
@@ -51,7 +51,7 @@ class ExpenseTrackerApp:
         ttk.Button(form, width=15, text="Delete", command=self.delete_expense).grid(row=4, column=3, rowspan=2)
         ttk.Button(form, width=15, text="Clear", command=self.clear_form).grid(row=4, column=4, rowspan=2)
 
-    def build_table(self):
+    def build_table(self) -> None:
         """Construct and format the app's treeview table field to display stored expense record."""
         table_frame = ttk.Frame(self.root)
         table_frame.pack(fill="both", expand=True)
@@ -79,7 +79,7 @@ class ExpenseTrackerApp:
 
         self.table.pack(side="left", fill="both", expand=True)
 
-    def build_footer(self):
+    def build_footer(self) -> None:
         """Construct and format the app's footer display with all summary totals."""
         footer = ttk.Frame(self.root, padding=8)
         footer.pack(fill="x")
@@ -91,7 +91,7 @@ class ExpenseTrackerApp:
         self.total_label = ttk.Label(footer, width=36, text=f"Total Balance: €{self.total_var.get()}")
         self.total_label.grid(row=0, column=2, sticky="w")
 
-    def refresh_tree(self):
+    def refresh_tree(self) -> None:
         """Update the app's stored variables and table."""
         # Delete all items in treeview and insert everything from current record
         for item in self.table.get_children():
@@ -114,7 +114,7 @@ class ExpenseTrackerApp:
         self.total_label.config(text=f"Total Balance: €{str_total}")
         
     # Event handlers
-    def add_expense(self):
+    def add_expense(self) -> None:
         """Use app's entry fields to store an expense in the record."""
         name = self.name_var.get()
         amount = self.amount_var.get()
@@ -131,7 +131,7 @@ class ExpenseTrackerApp:
         self.refresh_tree()
         self.clear_form()
 
-    def save_changes(self):
+    def save_changes(self) -> None:
         """Update a selected entry in the app's record with new values"""
         id = self.table.focus()
         
@@ -159,7 +159,7 @@ class ExpenseTrackerApp:
         self.refresh_tree()
         self.clear_form()
 
-    def delete_expense(self):
+    def delete_expense(self) -> None:
         """Delete a selected entry from the app's record"""
         id = self.table.focus()
         
@@ -184,14 +184,14 @@ class ExpenseTrackerApp:
         self.refresh_tree()
         self.clear_form()
 
-    def clear_form(self):
+    def clear_form(self) -> None:
         """Reset all entry fields to their default values"""
         self.name_var.set("")
         self.amount_var.set("")
         self.date_var.set("")
         self.type_var.set("Income")
 
-    def on_select(self, event):
+    def on_select(self, event) -> None:
         """Fill app's entry fields with selected expense's details"""
         selected = self.table.focus()
 
@@ -206,7 +206,7 @@ class ExpenseTrackerApp:
         self.date_var.set(expense_vals[2])
         self.type_var.set(expense_vals[3])
 
-    def on_close(self):
+    def on_close(self) -> None:
         """Save all stored record data to JSON file when closing the app window"""
         record_data = self.record.all()
         write_json_record(record_data)
