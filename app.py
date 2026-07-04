@@ -6,6 +6,7 @@ from json_record import write_json_record
 
 class ExpenseTrackerApp:
     def __init__(self, root: tk.Tk):
+        """Initialize app display and all entry and display variables."""
         self.record = ER()
         self.root = root
         
@@ -28,6 +29,7 @@ class ExpenseTrackerApp:
         self.refresh_tree()
 
     def build_form(self):
+        """Construct and format the app's form entry fields."""
         form = ttk.Frame(self.root, padding=8)
         form.pack(fill="x")
 
@@ -50,6 +52,7 @@ class ExpenseTrackerApp:
         ttk.Button(form, width=15, text="Clear", command=self.clear_form).grid(row=4, column=4, rowspan=2)
 
     def build_table(self):
+        """Construct and format the app's treeview table field to display stored expense record."""
         table_frame = ttk.Frame(self.root)
         table_frame.pack(fill="both", expand=True)
 
@@ -77,6 +80,7 @@ class ExpenseTrackerApp:
         self.table.pack(side="left", fill="both", expand=True)
 
     def build_footer(self):
+        """Construct and format the app's footer display with all summary totals."""
         footer = ttk.Frame(self.root, padding=8)
         footer.pack(fill="x")
         self.footer = footer
@@ -88,15 +92,19 @@ class ExpenseTrackerApp:
         self.total_label.grid(row=0, column=2, sticky="w")
 
     def refresh_tree(self):
+        """Update the app's stored variables and table."""
+        # Delete all items in treeview and insert everything from current record
         for item in self.table.get_children():
             self.table.delete(item)
-        self.expenses_var.set(self.record.expense)
-        self.income_var.set(self.record.income)
-        self.total_var.set(self.record.total)
         
         all_records = self.record.all()
         for index, record in enumerate(all_records):
             self.table.insert("", "end", iid=str(index), values=list(record.values()))
+
+        # Set all summary total variables and update display
+        self.expenses_var.set(self.record.expense)
+        self.income_var.set(self.record.income)
+        self.total_var.set(self.record.total)
 
         str_expense = '{:.2f}'.format(self.expenses_var.get())
         self.expenses_label.config(text=f"Total Expenses: €{str_expense}")
@@ -107,22 +115,27 @@ class ExpenseTrackerApp:
         
     # Event handlers
     def add_expense(self):
+        """Use app's entry fields to store an expense in the record."""
         name = self.name_var.get()
         amount = self.amount_var.get()
         date = self.date_var.get()
         type_var = self.type_var.get()
 
+        # Display error message to user and stop the current operation if add_record returns an error message
         res = self.record.add_record(name, amount, date, type_var)
-        if type(res) == str:
+        if res:
             mb.showerror("Validation Error", res)
             return
         
+        # Update app display and clear entry fields
         self.refresh_tree()
         self.clear_form()
 
     def save_changes(self):
+        """Update a selected entry in the app's record with new values"""
         id = self.table.focus()
         
+        # Display error message to user and stop the current operation if no item is selected
         if id == "":
             mb.showerror("Selection Error", "Error: No item in table selected")
             return
@@ -136,44 +149,56 @@ class ExpenseTrackerApp:
 
         self.record.validate(name, amount, date)
 
+        # Display error message to user and stop the current operation if update_record returns an error message
         res = self.record.update_record(id, name, amount, date, type_v)
-        if type(res) is str:
+        if res:
             mb.showerror("Validation Error", res)
             return
         
+        # Update app display and clear entry fields
         self.refresh_tree()
         self.clear_form()
 
     def delete_expense(self):
+        """Delete a selected entry from the app's record"""
         id = self.table.focus()
         
+        # Display error message to user and stop the current operation if no item is selected
         if id == "":
             mb.showerror("Selection Error", "Error: No item in table selected")
             return
         
         id = int(id)
 
+        # Prompt the user to confirm their choice before deleting selected entry
         if mb.askquestion("Confirmation", "Are you sure you want to delete this record?", icon="warning") == "no":
             return
         
+        # Display error message to user and stop the current operation if delete_record returns an error message
         res = self.record.delete_record(id)
-        if type(res) is str:
+        if res:
             mb.showerror("Validation Error", res)
             return
         
+        # Update app display and clear entry fields
         self.refresh_tree()
         self.clear_form()
 
     def clear_form(self):
+        """Reset all entry fields to their default values"""
         self.name_var.set("")
         self.amount_var.set("")
         self.date_var.set("")
         self.type_var.set("Income")
 
     def on_select(self, event):
+        """Fill app's entry fields with selected expense's details"""
         selected = self.table.focus()
+
+        # Gracefully stops operation when no entry is selected
         if not selected:
             return
+        
         record_vals = self.table.item(selected)["values"]
 
         self.name_var.set(record_vals[0])
@@ -182,6 +207,7 @@ class ExpenseTrackerApp:
         self.type_var.set(record_vals[3])
 
     def on_close(self):
+        """Save all stored record data to JSON file when closing the app window"""
         record_data = self.record.all()
         write_json_record(record_data)
         self.root.destroy()
