@@ -84,10 +84,10 @@ class ExpenseTrackerApp:
         footer = ttk.Frame(self.root, padding=8)
         footer.pack(fill="x")
         self.footer = footer
-        self.expenses_label = ttk.Label(footer, width=36, text=f"Total Expenses: €{self.expense_var.get()}")
-        self.expenses_label.grid(row=0, column=0, sticky="w")
         self.income_label = ttk.Label(footer, width=36, text=f"Total Income: €{self.income_var.get()}")
-        self.income_label.grid(row=0, column=1, sticky="w")
+        self.income_label.grid(row=0, column=0, sticky="w")
+        self.expenses_label = ttk.Label(footer, width=36, text=f"Total Expenses: €{self.expense_var.get()}")
+        self.expenses_label.grid(row=0, column=1, sticky="w")
         self.total_label = ttk.Label(footer, width=36, text=f"Total Balance: €{self.total_var.get()}")
         self.total_label.grid(row=0, column=2, sticky="w")
 
@@ -106,10 +106,10 @@ class ExpenseTrackerApp:
         self.income_var.set(self.record.income)
         self.total_var.set(self.record.total)
 
-        str_expense = '{:.2f}'.format(self.expense_var.get())
-        self.expenses_label.config(text=f"Total Expenses: €{str_expense}")
         str_income = '{:.2f}'.format(self.income_var.get())
         self.income_label.config(text=f"Total Income: €{str_income}")
+        str_expense = '{:.2f}'.format(self.expense_var.get())
+        self.expenses_label.config(text=f"Total Expenses: €{str_expense}")
         str_total = '{:.2f}'.format(self.total_var.get())
         self.total_label.config(text=f"Total Balance: €{str_total}")
         
