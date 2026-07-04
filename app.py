@@ -132,7 +132,7 @@ class ExpenseTrackerApp:
         self.clear_form()
 
     def save_changes(self) -> None:
-        """Update a selected entry in the app's record with new values"""
+        """Update a selected entry in the app's record with new values."""
         id = self.table.focus()
         
         # Display error message to user and stop the current operation if no item is selected
@@ -160,7 +160,7 @@ class ExpenseTrackerApp:
         self.clear_form()
 
     def delete_expense(self) -> None:
-        """Delete a selected entry from the app's record"""
+        """Delete a selected entry from the app's record."""
         id = self.table.focus()
         
         # Display error message to user and stop the current operation if no item is selected
@@ -185,14 +185,14 @@ class ExpenseTrackerApp:
         self.clear_form()
 
     def clear_form(self) -> None:
-        """Reset all entry fields to their default values"""
+        """Reset all entry fields to their default values."""
         self.name_var.set("")
         self.amount_var.set("")
         self.date_var.set("")
         self.type_var.set("Income")
 
     def on_select(self, event) -> None:
-        """Fill app's entry fields with selected expense's details"""
+        """Fill app's entry fields with selected expense's details."""
         selected = self.table.focus()
 
         # Gracefully stops operation when no entry is selected
@@ -207,7 +207,7 @@ class ExpenseTrackerApp:
         self.type_var.set(expense_vals[3])
 
     def on_close(self) -> None:
-        """Save all stored record data to JSON file when closing the app window"""
+        """Save all stored record data to JSON file when closing the app window."""
         record_data = self.record.all()
         write_json_record(record_data)
         self.root.destroy()

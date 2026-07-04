@@ -37,7 +37,7 @@ class ExpenseRecord:
         self.total = total
     
     def validate(self, name: str, amount: str, date: str) -> str:
-        """Return an error message if the inptut data is invalid, else None."""
+        """Return an error message if the input data is invalid, otherwise return an enpty string."""
         # Empty 'Name' field error
         if not name:
             return "Name is required"
@@ -79,7 +79,7 @@ class ExpenseRecord:
         return ""
             
     def add_expense(self, name: str, amount: str, date: str, type_var: str) -> str:
-        """Add an expense to the current record."""
+        """Add an expense to the current record using provided details."""
         name = name.strip()
         # Validate entry fields
         err = self.validate(name, amount, date)
@@ -100,7 +100,7 @@ class ExpenseRecord:
         return ""
     
     def update_expense(self, id: int, name: str, amount: str, date: str, type_var: str) -> str:
-        """Update an expense stored in the current record."""
+        """Update an expense stored in the current record using provided details."""
         expense = {}
 
         # id will be the index of the expense to be updated
@@ -140,6 +140,6 @@ class ExpenseRecord:
         return ""
     
     def delete_all(self) -> None:
-        """Delete all stored expenses from current record"""
+        """Delete all stored expenses from current record."""
         self._expenses = []
     
