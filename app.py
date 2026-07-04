@@ -19,7 +19,7 @@ class ExpenseTrackerApp:
         self.amount_var = tk.StringVar()
         self.date_var = tk.StringVar()
         self.type_var = tk.StringVar(value="Income")
-        self.expenses_var = tk.DoubleVar(value=self.record.expense)
+        self.expense_var = tk.DoubleVar(value=self.record.expense)
         self.income_var = tk.DoubleVar(value=self.record.income)
         self.total_var = tk.DoubleVar(value=self.record.total)
 
@@ -97,16 +97,16 @@ class ExpenseTrackerApp:
         for item in self.table.get_children():
             self.table.delete(item)
         
-        all_records = self.record.all()
-        for index, record in enumerate(all_records):
-            self.table.insert("", "end", iid=str(index), values=list(record.values()))
+        all_expenses = self.record.all()
+        for index, expense in enumerate(all_expenses):
+            self.table.insert("", "end", iid=str(index), values=list(expense.values()))
 
         # Set all summary total variables and update display
-        self.expenses_var.set(self.record.expense)
+        self.expense_var.set(self.record.expense)
         self.income_var.set(self.record.income)
         self.total_var.set(self.record.total)
 
-        str_expense = '{:.2f}'.format(self.expenses_var.get())
+        str_expense = '{:.2f}'.format(self.expense_var.get())
         self.expenses_label.config(text=f"Total Expenses: €{str_expense}")
         str_income = '{:.2f}'.format(self.income_var.get())
         self.income_label.config(text=f"Total Income: €{str_income}")
@@ -121,8 +121,8 @@ class ExpenseTrackerApp:
         date = self.date_var.get()
         type_var = self.type_var.get()
 
-        # Display error message to user and stop the current operation if add_record returns an error message
-        res = self.record.add_record(name, amount, date, type_var)
+        # Display error message to user and stop the current operation if add_expense returns an error message
+        res = self.record.add_expense(name, amount, date, type_var)
         if res:
             mb.showerror("Validation Error", res)
             return
@@ -145,12 +145,12 @@ class ExpenseTrackerApp:
         name = self.name_var.get()
         amount = self.amount_var.get()
         date = self.date_var.get()
-        type_v = self.type_var.get()
+        type_var = self.type_var.get()
 
         self.record.validate(name, amount, date)
 
-        # Display error message to user and stop the current operation if update_record returns an error message
-        res = self.record.update_record(id, name, amount, date, type_v)
+        # Display error message to user and stop the current operation if update_expense returns an error message
+        res = self.record.update_expense(id, name, amount, date, type_var)
         if res:
             mb.showerror("Validation Error", res)
             return
@@ -171,11 +171,11 @@ class ExpenseTrackerApp:
         id = int(id)
 
         # Prompt the user to confirm their choice before deleting selected entry
-        if mb.askquestion("Confirmation", "Are you sure you want to delete this record?", icon="warning") == "no":
+        if mb.askquestion("Confirmation", "Are you sure you want to delete this expense?", icon="warning") == "no":
             return
         
-        # Display error message to user and stop the current operation if delete_record returns an error message
-        res = self.record.delete_record(id)
+        # Display error message to user and stop the current operation if delete_expense returns an error message
+        res = self.record.delete_expense(id)
         if res:
             mb.showerror("Validation Error", res)
             return
@@ -199,12 +199,12 @@ class ExpenseTrackerApp:
         if not selected:
             return
         
-        record_vals = self.table.item(selected)["values"]
+        expense_vals = self.table.item(selected)["values"]
 
-        self.name_var.set(record_vals[0])
-        self.amount_var.set(record_vals[1][1:])
-        self.date_var.set(record_vals[2])
-        self.type_var.set(record_vals[3])
+        self.name_var.set(expense_vals[0])
+        self.amount_var.set(expense_vals[1][1:])
+        self.date_var.set(expense_vals[2])
+        self.type_var.set(expense_vals[3])
 
     def on_close(self):
         """Save all stored record data to JSON file when closing the app window"""

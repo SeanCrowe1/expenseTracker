@@ -19,12 +19,12 @@ class ExpenseRecord:
         income = 0
         total = 0
 
-        for record in self._expenses:
+        for expense in self._expenses:
             # Remove the leading € sign from the amount string and convert to a float
-            num = float(record["amount"][1:])
+            num = float(expense["amount"][1:])
             
             # If expense is an income, add to total and add to income, otherwise subtract from total and add to expense amount
-            if record["type"] == "Income":
+            if expense["type"] == "Income":
                 income += num
                 total += num
             else:
@@ -78,7 +78,7 @@ class ExpenseRecord:
             
         return ""
             
-    def add_record(self, name, amount, date, type):
+    def add_expense(self, name, amount, date, type_var):
         """Add an expense to the current record."""
         name = name.strip()
         # Validate entry fields
@@ -91,7 +91,7 @@ class ExpenseRecord:
             "name": name,
             "amount": f"€{float(amount):.2f}",
             "date": date,
-            "type": type,
+            "type": type_var,
         }
 
         # Update record list and recalculate the summary totals
@@ -99,7 +99,7 @@ class ExpenseRecord:
         self.calc_total()
         return ""
     
-    def update_record(self, id, name, amount, date, type_v):
+    def update_expense(self, id, name, amount, date, type_var):
         """Update an expense stored in the current record."""
         expense = {}
 
@@ -120,14 +120,14 @@ class ExpenseRecord:
         expense["name"] = name
         expense["amount"] = f"€{float(amount):.2f}"
         expense["date"] = date
-        expense["type"] = type_v
+        expense["type"] = type_var
 
         # Update selected expense in place in stored record list and recalculate summary totals
         self._expenses[id] = expense
         self.calc_total()
         return ""
     
-    def delete_record(self, id: int) -> str:
+    def delete_expense(self, id: int) -> str:
         """Delete an expense stored in the current record."""
         # id will be the index of the expense to be deleted
         # Check that id exists for the current record list
