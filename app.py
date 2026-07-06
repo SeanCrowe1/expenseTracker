@@ -10,6 +10,7 @@ class ExpenseTrackerApp:
         self.record = ER()
         self.root = root
         
+        # Configure app window settings
         root.title("Expense Tracker")
         root.geometry("1000x800")
         root.option_add("*Font", ("", 12))
