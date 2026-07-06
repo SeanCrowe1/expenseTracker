@@ -80,7 +80,7 @@ class TestExpenses(unittest.TestCase):
         record.delete_all()
         id, name, amount, date, type = (0, "Google", "2115", "25-06-2025", "income")
         actual = record.update_expense(id, name, amount, date, type)
-        expected = f"Cannot find id in record: {id}"
+        expected = "Cannot find id in record: 0"
         self.assertEqual(actual, expected)
 
     def test_delete_entry(self) -> None:
@@ -96,5 +96,5 @@ class TestExpenses(unittest.TestCase):
         record = ExpenseRecord()
         record.delete_all()
         actual = record.delete_expense(0)
-        expected = f"Cannot find id in record: {0}"
+        expected = "Cannot find id in record: 0"
         self.assertEqual(actual, expected)
